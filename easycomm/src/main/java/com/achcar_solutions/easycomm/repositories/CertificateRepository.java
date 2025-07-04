@@ -1,5 +1,7 @@
-package com.achcar_solutions.easycomm.entities.certificate;
+package com.achcar_solutions.easycomm.repositories;
 
+import com.achcar_solutions.easycomm.entities.certificate.Certificate;
+import com.achcar_solutions.easycomm.entities.certificate.CertificateCategory;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
