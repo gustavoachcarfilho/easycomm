@@ -34,3 +34,6 @@ build/
 
 .env
 .csv
+
+# Arquivos de configuração da IDE JetBrains
+.idea/
