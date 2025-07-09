@@ -38,5 +38,6 @@ build/
 
 # Arquivos de configuração da IDE JetBrains
 *.idea
+/.idea
 
 *.properties
