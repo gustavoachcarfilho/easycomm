@@ -1,0 +1,16 @@
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\authuser\AuthenticationDTO.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\authuser\AuthUser.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\authuser\LoginDTO.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\authuser\RegisterDTO.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\authuser\UserRole.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\certificate\Certificate.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\certificate\CertificateCategory.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\certificate\CertificateCreationRequest.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\certificate\CertificateCreationResponse.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\certificate\CertificateStatus.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\qrcode\QrCodeGenerateRequest.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\entities\qrcode\QrCodeGenerateResponse.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\infra\aws\S3StorageAdapter.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\infra\ports\StoragePort.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\repositories\AuthUserRepository.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-core\src\main\java\com\achcar_solutions\easycomm\repositories\CertificateRepository.java

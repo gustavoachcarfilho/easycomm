@@ -1,0 +1,10 @@
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\controllers\AuthenticationController.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\controllers\CertificateController.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\controllers\QrCodeController.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\EasycommApplication.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\security\SecurityConfiguration.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\security\SecurityFilter.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\security\TokenService.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\services\AuthorizationService.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\services\CertificateService.java
+C:\Users\Gustavo Achcar Filho\Desktop\projects\easycomm-monorepo\easycomm-api\src\main\java\com\achcar_solutions\easycomm\services\QrCodeGeneratorService.java

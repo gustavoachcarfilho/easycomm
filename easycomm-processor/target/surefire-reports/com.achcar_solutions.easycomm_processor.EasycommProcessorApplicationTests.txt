@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.achcar_solutions.easycomm_processor.EasycommProcessorApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.537 s -- in com.achcar_solutions.easycomm_processor.EasycommProcessorApplicationTests
