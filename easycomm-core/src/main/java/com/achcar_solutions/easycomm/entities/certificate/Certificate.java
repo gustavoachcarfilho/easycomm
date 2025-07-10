@@ -37,6 +37,7 @@ public class Certificate {
     private String fileUrl;
     private String fileName;
     private String fileType;
+    private String s3ObjectKey;
     private CertificateStatus status;
     @Nullable
     private String validator_id;

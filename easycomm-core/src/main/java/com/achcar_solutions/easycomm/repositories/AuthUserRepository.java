@@ -3,6 +3,8 @@ package com.achcar_solutions.easycomm.repositories;
 import com.achcar_solutions.easycomm.entities.authuser.AuthUser;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Repository;
+
 
 public interface AuthUserRepository extends MongoRepository<AuthUser, String> {
     UserDetails findByEmail(String email);
