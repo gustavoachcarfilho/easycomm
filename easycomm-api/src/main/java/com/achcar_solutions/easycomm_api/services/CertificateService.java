@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,18 +45,20 @@ public class CertificateService {
         try {
             String originalFileName = file.getOriginalFilename();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String s3ObjectKey = UUID.randomUUID().toString() + fileExtension;
+            String s3ObjectKey = UUID.randomUUID() + fileExtension;
 
-            String fileUrl = storagePort.uploadFile(file.getBytes(), request.fileName(), request.fileType());
+            String fileUrl = storagePort.uploadFile(file.getBytes(), s3ObjectKey, request.fileType());
 
             Certificate certificate = Certificate.builder()
                     .createdBy(request.createdBy())
+                    .createdDate(LocalDateTime.now())
                     .title(request.title())
                     .category(request.category())
                     .durationInHours(request.durationInHours())
+                    .expirationDate(request.expirationDate())
+                    .fileUrl(fileUrl)
                     .fileName(originalFileName)
                     .fileType(file.getContentType())
-                    .fileUrl(fileUrl)
                     .s3ObjectKey(s3ObjectKey)
                     .status(CertificateStatus.PENDING)
                     .build();
