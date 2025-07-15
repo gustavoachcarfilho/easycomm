@@ -106,8 +106,14 @@ public class CertificateService {
 
     public void deleteCertificate(String id) {
         logger.info("Request received to delete certificate by ID: {}", id);
-        // TODO: We'll need to add logic here to delete from S3 as well.
-        certificateRepository.deleteById(id);
+        Certificate certificate = getCertificateById(id);
+
+        logger.info("Deleting file from S3 with key: {}", certificate.getS3ObjectKey());
+        storagePort.deleteFile(certificate.getS3ObjectKey());
+        logger.info("File successfully deleted from S3.");
+
+        certificateRepository.delete(certificate);
+        logger.info("Certificate with id: {} successfully deleted from database.", id);
     }
 
     private void validateCertificate(MultipartFile file) {
