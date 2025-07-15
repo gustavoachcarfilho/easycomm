@@ -52,8 +52,8 @@ public class CertificateService {
 
         try {
             String originalFileName = file.getOriginalFilename();
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String s3ObjectKey = UUID.randomUUID() + fileExtension;
+            String fileType = originalFileName.substring(originalFileName.lastIndexOf("."));
+            String s3ObjectKey = UUID.randomUUID() + fileType;
             logger.info("Generated unique S3 object key: {}", s3ObjectKey);
 
             logger.info("Uploading file to S3 storage...");
@@ -69,7 +69,7 @@ public class CertificateService {
                     .expirationDate(request.expirationDate())
                     .fileUrl(fileUrl)
                     .fileName(originalFileName)
-                    .fileType(file.getContentType())
+                    .fileType(fileType)
                     .s3ObjectKey(s3ObjectKey)
                     .status(CertificateStatus.PENDING)
                     .build();
