@@ -33,11 +33,21 @@ build/
 ### VS Code ###
 .vscode/
 
+# Arquivos de Build e Dependências
+/.mvn/
+/out/
+
+# Arquivos de Log
+/logs/
+
+# Arquivos de Configuração de IDE
+/.idea/
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos com Segredos e Configurações Locais
 *.env
+application.properties
 *.csv
-
-# Arquivos de configuração da IDE JetBrains
-*.idea
-/.idea
-
-*.properties

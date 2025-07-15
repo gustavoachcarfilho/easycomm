@@ -7,6 +7,8 @@ import com.achcar_solutions.easycomm_core.infra.kafka.CertificateKafkaMessage;
 import com.achcar_solutions.easycomm_api.infra.kafka.KafkaTopicConfiguration;
 import com.achcar_solutions.easycomm_core.infra.ports.StoragePort;
 import com.achcar_solutions.easycomm_core.repositories.CertificateRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @Service
 public class CertificateService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CertificateService.class);
     private final CertificateRepository certificateRepository;
     private final StoragePort storagePort;
     private final KafkaTemplate<String, CertificateKafkaMessage> kafkaTemplate;
@@ -35,19 +38,28 @@ public class CertificateService {
     }
 
     public Certificate createCertificate(CertificateCreationRequest request, MultipartFile file) {
+        logger.info("Received request to create a new certificate with title: '{}'", request.title());
 
+        logger.debug("Checking for existing certificate for user '{}', title '{}', and category '{}'", request.createdBy(), request.title(), request.category());
         var maybeExistentCertificate = certificateRepository.findByCreatedByAndTitleAndCategory(request.createdBy(), request.title(), request.category());
         if (maybeExistentCertificate.isPresent()) {
+            logger.warn("Certificate creation blocked: A certificate with the same title and category already exists for this user.");
             throw new RuntimeException("Certificate already exists for the given user, title, and category.");
         }
+        logger.info("No duplicates found. Proceeding with file validation.");
         validateCertificate(file);
+        logger.info("File validation successful.");
 
         try {
             String originalFileName = file.getOriginalFilename();
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String s3ObjectKey = UUID.randomUUID() + fileExtension;
+            assert originalFileName != null;
+            String fileType = originalFileName.substring(originalFileName.lastIndexOf("."));
+            String s3ObjectKey = UUID.randomUUID() + fileType;
+            logger.info("Generated unique S3 object key: {}", s3ObjectKey);
 
-            String fileUrl = storagePort.uploadFile(file.getBytes(), s3ObjectKey, request.fileType());
+            logger.info("Uploading file to S3 storage...");
+            String fileUrl = storagePort.uploadFile(file.getBytes(), s3ObjectKey, fileType);
+            logger.info("File uploaded successfully. URL: {}", fileUrl);
 
             Certificate certificate = Certificate.builder()
                     .createdBy(request.createdBy())
@@ -58,18 +70,23 @@ public class CertificateService {
                     .expirationDate(request.expirationDate())
                     .fileUrl(fileUrl)
                     .fileName(originalFileName)
-                    .fileType(file.getContentType())
+                    .fileType(fileType)
                     .s3ObjectKey(s3ObjectKey)
                     .status(CertificateStatus.PENDING)
                     .build();
 
+            logger.info("Saving certificate metadata to the database...");
             Certificate savedCertificate = certificateRepository.insert(certificate);
+            logger.info("Certificate metadata saved with ID: {}", savedCertificate.getId());
 
             CertificateKafkaMessage kafkaMessage = new CertificateKafkaMessage(savedCertificate.getId(), savedCertificate.getS3ObjectKey());
+            logger.info("Sending message to Kafka topic '{}' for certificate ID: {}", KafkaTopicConfiguration.CERTIFICATE_TOPIC, savedCertificate.getId());
             kafkaTemplate.send(KafkaTopicConfiguration.CERTIFICATE_TOPIC, kafkaMessage);
+            logger.info("Message successfully sent to Kafka.");
             return savedCertificate;
 
         } catch (IOException exception) {
+            logger.error("Error reading file bytes during upload for certificate title '{}'", request.title(), exception);
             throw new RuntimeException("Error uploading file to storage: " + exception.getMessage(), exception);
         }
 
@@ -77,16 +94,26 @@ public class CertificateService {
     }
 
     public List<Certificate> getAllCertificates() {
+        logger.info("Request received to get all certificates.");
         return certificateRepository.findAll();
     }
 
     public Certificate getCertificateById(String id) {
+        logger.info("Request received to get certificate by ID: {}", id);
         return certificateRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Certificate not found with id: " + id));
     }
 
     public void deleteCertificate(String id) {
-        certificateRepository.deleteById(id);
+        logger.info("Request received to delete certificate by ID: {}", id);
+        Certificate certificate = getCertificateById(id);
+
+        logger.info("Deleting file from S3 with key: {}", certificate.getS3ObjectKey());
+        storagePort.deleteFile(certificate.getS3ObjectKey());
+        logger.info("File successfully deleted from S3.");
+
+        certificateRepository.delete(certificate);
+        logger.info("Certificate with id: {} successfully deleted from database.", id);
     }
 
     private void validateCertificate(MultipartFile file) {

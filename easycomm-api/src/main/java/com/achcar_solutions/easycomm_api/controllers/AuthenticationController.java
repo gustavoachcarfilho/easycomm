@@ -6,6 +6,10 @@ import com.achcar_solutions.easycomm_core.entities.authuser.LoginDTO;
 import com.achcar_solutions.easycomm_core.entities.authuser.RegisterDTO;
 import com.achcar_solutions.easycomm_api.security.TokenService;
 import com.achcar_solutions.easycomm_core.repositories.AuthUserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name = "Autenticação", description = "Endpoints para registro e login de usuários.")
 public class AuthenticationController {
 
     @Autowired
@@ -30,6 +35,11 @@ public class AuthenticationController {
     @Autowired
     TokenService tokenService;
 
+    @Operation(summary = "Realiza o login do usuário", description = "Autentica um usuário com email e senha e retorna um token JWT em caso de sucesso.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido, token JWT retornado."),
+            @ApiResponse(responseCode = "403", description = "Forbidden - Credenciais inválidas.")
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginDTO> login(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.email(), authenticationDTO.password());
@@ -38,6 +48,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginDTO(token));
     }
 
+    @Operation(summary = "Registra um novo usuário", description = "Cria um novo usuário no sistema se o email ou CPF já não estiverem cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Bad Request - Email ou CPF já cadastrado.")
+    })
     @PostMapping("/register")
     public ResponseEntity<RegisterDTO> register(@RequestBody @Valid RegisterDTO registerDTO) {
         var isUserRegistered = authUserRepository.existsByEmail(registerDTO.email()) || authUserRepository.existsByCpf(registerDTO.cpf());
