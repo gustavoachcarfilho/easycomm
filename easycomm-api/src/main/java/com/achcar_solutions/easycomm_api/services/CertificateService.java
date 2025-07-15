@@ -52,12 +52,13 @@ public class CertificateService {
 
         try {
             String originalFileName = file.getOriginalFilename();
+            assert originalFileName != null;
             String fileType = originalFileName.substring(originalFileName.lastIndexOf("."));
             String s3ObjectKey = UUID.randomUUID() + fileType;
             logger.info("Generated unique S3 object key: {}", s3ObjectKey);
 
             logger.info("Uploading file to S3 storage...");
-            String fileUrl = storagePort.uploadFile(file.getBytes(), s3ObjectKey, request.fileType());
+            String fileUrl = storagePort.uploadFile(file.getBytes(), s3ObjectKey, fileType);
             logger.info("File uploaded successfully. URL: {}", fileUrl);
 
             Certificate certificate = Certificate.builder()
